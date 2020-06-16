@@ -1,0 +1,14 @@
+optWeightSigma = 0.481 for honeyComb
+RMSD of honeyComb is 0.070462
+RMSD of honeyComb (0.9*optWeightSigma) is 0.072019
+RMSD of honeyComb (1.1*optWeightSigma) is 0.079458
+
+optWeightSigma = 0.857 for grass
+RMSD of grass (optWeightSigma) is 0.081659
+RMSD of grass 0.9*(optWeightSigma) is 0.08449
+RMSD of grass 1.1*(optWeightSigma) is 0.087367
+
+optWeightSigma = 0.25 for 
+RMSD of barbara is 0.04394
+RMSD of barbara 0.9*(optWeightSigma) is 0.04449
+RMSD of barbara 1.1*(optWeightSigma) is 0.047367

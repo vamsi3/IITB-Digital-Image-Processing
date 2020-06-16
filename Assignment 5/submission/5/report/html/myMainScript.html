@@ -1,0 +1,268 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-01"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Explanation for 5(c):</a></li><li><a href="#3">Explanation for 5(d):</a></li></ul></div><pre class="codeinput">tic;
+
+I = double(imread(<span class="string">'../data/barbara256.png'</span>));
+
+imagesc(I);colormap(gray);
+title(<span class="string">'Original Image'</span>);
+
+s = 7; s1 = 15;
+sig = 20;
+K = 200;
+
+I1 = I + randn(size(I))*sig;
+rmse0 = RMSE(I,I1)
+
+figure;
+imagesc(I1);colormap(gray);
+title(<span class="string">'Noisy Image'</span>);
+
+<span class="comment">% 5(a)</span>
+
+I2 = myPCADenoising1(I1,sig,s);
+rmse1 = RMSE(I,I2)
+
+figure;
+imagesc(I2);colormap(gray);
+title(<span class="string">'Image after PCADenoising1'</span>);
+
+<span class="comment">% 5(b)</span>
+
+I3 = myPCADenoising2(I1,sig,s,s1,K);
+rmse2 = RMSE(I,I3)
+
+figure;
+imagesc(I3);colormap(gray);
+title(<span class="string">'Image after PCADenoising2'</span>);
+
+
+<span class="comment">% 5(c)</span>
+
+I4 = myBilateralFiltering(I1,5,33);
+rmse3 = RMSE(I, I4)
+
+<span class="comment">% 5(d)</span>
+
+sig = 0.5;
+
+<span class="comment">% 5(d) Part 1 - Poisson noise.</span>
+
+I_poisson = poissrnd(I);
+I_poisson_sqrt = sqrt(I_poisson);
+I5 = myPCADenoising2(I_poisson_sqrt,sig,s,s1,K);
+I5 = I5.^2;
+rmse4 = RMSE(I,I5)
+
+figure;
+imagesc(I_poisson);colormap(gray);
+title(<span class="string">'Image with poisson noise 5(d) Part 1'</span>);
+
+figure;
+imagesc(I5);colormap(gray);
+title(<span class="string">'Denoised Image for 5(d) Part 1'</span>);
+
+<span class="comment">% 5(d) Part 2 - Poisson noise simulating low exposure.</span>
+
+I_poisson2 = poissrnd(I/20);
+I_poisson2_sqrt = sqrt(I_poisson2);
+I6 = myPCADenoising2(I_poisson2_sqrt,sig,s,s1,K);
+I6 = I6.^2;
+rmse5 = RMSE(I/20,I6)
+
+figure;
+imagesc(I_poisson2);colormap(gray);
+title(<span class="string">'Image with poisson noise 5(d) Part 2'</span>);
+
+figure;
+imagesc(I6);colormap(gray);
+title(<span class="string">'Denoised Image for 5(d) Part 2'</span>);
+
+toc;
+</pre><pre class="codeoutput">
+rmse0 =
+
+    0.0214
+
+
+rmse1 =
+
+    0.0052
+
+
+rmse2 =
+
+    0.0032
+
+
+rmse3 =
+
+    0.0089
+
+
+rmse4 =
+
+    0.0014
+
+
+rmse5 =
+
+    0.0142
+
+Elapsed time is 167.275541 seconds.
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <h2 id="2">Explanation for 5(c):</h2><p>PCA based denoising seems to work better (RMSE = 0.0032) than Bilateral Filtering (RMSE = 0.0090). This is because PCA filters include the estimate of signal-to-noise ratio while changing the eigen-coefficients. PCA based denoising act primarily on eigencoefficients having low signal-to-noise ratio like in the Wiener Filter update. Where, in the case of Bilateral Filtering, it directly applies a (product of two)gaussian kernel(s) of the spatial and intensity domains and no where takes into account these signal-to-noise ratios for denoising.</p><h2 id="3">Explanation for 5(d):</h2><p>In the latter case when we applied a poisson noise to a low exposure image (im/20), the SNR (signal-to-noise) ratio becomes very high. The noise is almost comparable to the corresponding pixel values. Hence, because of this, it is difficult for PCA Denoising to effectively remove the noise, thus we see a high RMSE [0.0141] with original (im/20) than in the case when the same procedure is done directly on original image (im) (not divided by 20) where RMSE observed was [0.0014].</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+tic;
+
+I = double(imread('../data/barbara256.png'));
+
+imagesc(I);colormap(gray);
+title('Original Image');
+
+s = 7; s1 = 15;
+sig = 20;
+K = 200;
+
+I1 = I + randn(size(I))*sig;
+rmse0 = RMSE(I,I1)
+
+figure;
+imagesc(I1);colormap(gray);
+title('Noisy Image');
+
+% 5(a)
+
+I2 = myPCADenoising1(I1,sig,s);
+rmse1 = RMSE(I,I2)
+
+figure;
+imagesc(I2);colormap(gray);
+title('Image after PCADenoising1');
+
+% 5(b)
+
+I3 = myPCADenoising2(I1,sig,s,s1,K);
+rmse2 = RMSE(I,I3)
+
+figure;
+imagesc(I3);colormap(gray);
+title('Image after PCADenoising2');
+
+
+% 5(c)
+
+I4 = myBilateralFiltering(I1,5,33);
+rmse3 = RMSE(I, I4)
+
+% 5(d)
+
+sig = 0.5;
+
+% 5(d) Part 1 - Poisson noise.
+
+I_poisson = poissrnd(I);
+I_poisson_sqrt = sqrt(I_poisson);
+I5 = myPCADenoising2(I_poisson_sqrt,sig,s,s1,K);
+I5 = I5.^2;
+rmse4 = RMSE(I,I5)
+
+figure;
+imagesc(I_poisson);colormap(gray);
+title('Image with poisson noise 5(d) Part 1');
+
+figure;
+imagesc(I5);colormap(gray);
+title('Denoised Image for 5(d) Part 1');
+
+% 5(d) Part 2 - Poisson noise simulating low exposure.
+
+I_poisson2 = poissrnd(I/20);
+I_poisson2_sqrt = sqrt(I_poisson2);
+I6 = myPCADenoising2(I_poisson2_sqrt,sig,s,s1,K);
+I6 = I6.^2;
+rmse5 = RMSE(I/20,I6)
+
+figure;
+imagesc(I_poisson2);colormap(gray);
+title('Image with poisson noise 5(d) Part 2');
+
+figure;
+imagesc(I6);colormap(gray);
+title('Denoised Image for 5(d) Part 2');
+
+toc;
+
+%% Explanation for 5(c):
+% PCA based denoising seems to work better (RMSE = 0.0032) than Bilateral Filtering (RMSE = 0.0090). This is because PCA filters include the estimate of signal-to-noise ratio while changing the eigen-coefficients. PCA based denoising act primarily on eigencoefficients having low signal-to-noise ratio like in the Wiener Filter update. Where, in the case of Bilateral Filtering, it directly applies a (product of two)gaussian kernel(s) of the spatial and intensity domains and no where takes into account these signal-to-noise ratios for denoising.
+
+%% Explanation for 5(d):
+% In the latter case when we applied a poisson noise to a low exposure image (im/20), the SNR (signal-to-noise) ratio becomes very high. The noise is almost comparable to the corresponding pixel values. Hence, because of this, it is difficult for PCA Denoising to effectively remove the noise, thus we see a high RMSE [0.0141] with original (im/20) than in the case when the same procedure is done directly on original image (im) (not divided by 20) where RMSE observed was [0.0014].
+
+##### SOURCE END #####
+--></body></html>

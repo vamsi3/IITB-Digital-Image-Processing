@@ -1,0 +1,844 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-06"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">tic;
+
+myNumOfColors = 200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+
+
+i = 0;
+h = waitbar(0,<span class="string">'Assignment1-Part2'</span>);
+
+I1 = <span class="string">'../data/barbara.png'</span>;
+figure(1),imshow(I1);
+title(<span class="string">'barbara-original'</span>);
+colorbar;
+
+I2 = <span class="string">'../data/TEM.png'</span>;
+figure(2),imshow(I2);
+title(<span class="string">'TEM-original'</span>);
+colorbar;
+
+I3 = <span class="string">'../data/canyon.png'</span>;
+figure(3),imshow(I3);
+title(<span class="string">'canyon-original'</span>);
+
+i = i + 0.02;
+waitbar(i);
+
+
+TEM_lcs = myLinearContrastStretching(<span class="string">'../data/TEM.png'</span>);
+figure(4),imagesc(TEM_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'TEM linear-contrast-stretching'</span>);
+save(<span class="string">'../Report/Images/TEM_lcs.mat'</span>,<span class="string">'TEM_lcs'</span>);
+
+colorbar;
+barbara_lcs = myLinearContrastStretching(<span class="string">'../data/barbara.png'</span>);
+figure(5),imagesc(barbara_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara linear-contrast-stretching'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_lcs.mat'</span>,<span class="string">'barbara_lcs'</span>);
+canyon_lcs = myLinearContrastStretching(<span class="string">'../data/canyon.png'</span>);
+figure(6),imagesc(canyon_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon linear-contrast-stretching'</span>);
+save(<span class="string">'../Report/Images/canyon_lcs.mat'</span>,<span class="string">'canyon_lcs'</span>);
+
+i = i + 0.02;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% Canyon CLAHE</span>
+<span class="comment">% Medium one followed by the one with alpha halved</span>
+
+canyon_clahe = myCLAHE(<span class="string">'../data/canyon.png'</span>,75,0.4);
+figure(7),imagesc(canyon_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon CLAHE ws=75 a=0.4'</span>);
+save(<span class="string">'../Report/Images/canyon_clahe.mat'</span>,<span class="string">'canyon_clahe'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+canyon_clahe_h = myCLAHE(<span class="string">'../data/canyon.png'</span>,75,0.2);
+figure(8),imagesc(canyon_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon CLAHE ws=75 a=0.2'</span>);
+save(<span class="string">'../Report/Images/canyon_clahe_h.mat'</span>,<span class="string">'canyon_clahe_h'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% barbara CLAHE</span>
+<span class="comment">% Medium one followed by the one with alpha halved</span>
+
+barbara_clahe = myCLAHE(<span class="string">'../data/barbara.png'</span>,75,0.2);
+figure(9),imagesc(barbara_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara CLAHE ws=75 a=0.2'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_clahe.mat'</span>,<span class="string">'barbara_clahe'</span>);
+i = i + 0.05;
+waitbar(i);
+
+barbara_clahe_h = myCLAHE(<span class="string">'../data/barbara.png'</span>,75,0.1);
+figure(10),imagesc(barbara_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara CLAHE ws=75 a=0.1'</span>);
+colorbar;
+save(<span class="string">'../Report/Images/barbara_clahe_h.mat'</span>,<span class="string">'barbara_clahe_h'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% TEM CLAHE</span>
+<span class="comment">% Medium one followed by the one with alpha halved</span>
+
+TEM_clahe = myCLAHE(<span class="string">'../data/TEM.png'</span>,75,0.3);
+figure(11),imagesc(TEM_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'TEM CLAHE ws=75 a=0.3'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_clahe.mat'</span>,<span class="string">'TEM_clahe'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+TEM_clahe_h = myCLAHE(<span class="string">'../data/TEM.png'</span>,75,0.15);
+figure(12),imagesc(TEM_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'TEM CLAHE ws=75 a=0.15'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_clahe_h.mat'</span>,<span class="string">'TEM_clahe_h'</span>);
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% Canyon AHE</span>
+<span class="comment">% Medium one followed by large and small window sizes</span>
+
+canyon_ahe = myAHE(<span class="string">'../data/canyon.png'</span>,75);
+figure(13),imagesc(canyon_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon AHE ws=75'</span>);
+
+save(<span class="string">'../Report/Images/canyon_ahe.mat'</span>,<span class="string">'canyon_ahe'</span>);
+i = i + 0.05;
+waitbar(i);
+
+canyon_ahe_large = myAHE(<span class="string">'../data/canyon.png'</span>,200);
+figure(14),imagesc(canyon_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon AHE ws=200'</span>);
+save(<span class="string">'../Report/Images/canyon_ahe_large.mat'</span>,<span class="string">'canyon_ahe_large'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+canyon_ahe_small = myAHE(<span class="string">'../data/canyon.png'</span>,30);
+figure(15),imagesc(canyon_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon AHE ws=30'</span>);
+
+save(<span class="string">'../Report/Images/canyon_ahe_small.mat'</span>,<span class="string">'canyon_ahe_small'</span>);
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% barbara AHE</span>
+<span class="comment">% Medium one followed by large and small window sizes</span>
+
+barbara_ahe = myAHE(<span class="string">'../data/barbara.png'</span>,75);
+figure(16),imagesc(barbara_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara AHE ws=75'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_ahe.mat'</span>,<span class="string">'barbara_ahe'</span>);
+i = i + 0.05;
+waitbar(i);
+
+barbara_ahe_large = myAHE(<span class="string">'../data/barbara.png'</span>,200);
+figure(17),imagesc(barbara_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara AHE ws=200'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_ahe_large.mat'</span>,<span class="string">'barbara_ahe_large'</span>);
+i = i + 0.05;
+waitbar(i);
+
+barbara_ahe_small = myAHE(<span class="string">'../data/barbara.png'</span>,30);
+figure(18),imagesc(barbara_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara AHE ws=30'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_ahe_small.mat'</span>,<span class="string">'barbara_ahe_small'</span>);
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% TEM AHE</span>
+<span class="comment">% Medium one followed by large and small window sizes</span>
+
+TEM_ahe = myAHE(<span class="string">'../data/TEM.png'</span>,75);
+figure(19),imagesc(TEM_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'TEM AHE ws=75'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_ahe.mat'</span>,<span class="string">'TEM_ahe'</span>);
+i = i + 0.05;
+waitbar(i);
+
+TEM_ahe_large = myAHE(<span class="string">'../data/TEM.png'</span>,200);
+figure(20),imagesc(TEM_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon TEM ws=200'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_ahe_large.mat'</span>,<span class="string">'TEM_ahe_large'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+TEM_ahe_small = myAHE(<span class="string">'../data/TEM.png'</span>,30);
+figure(21),imagesc(TEM_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon TEM ws=30'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_ahe_small.mat'</span>,<span class="string">'TEM_ahe_small'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% Canyon HE</span>
+
+canyon_he = myHE(<span class="string">'../data/canyon.png'</span>);
+figure(22),imagesc(canyon_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'canyon HE'</span>);
+
+save(<span class="string">'../Report/Images/canyon_he.mat'</span>,<span class="string">'canyon_he'</span>);
+
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% barbara HE</span>
+
+barbara_he = myHE(<span class="string">'../data/barbara.png'</span>);
+figure(23),imagesc(barbara_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'barbara HE'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/barbara_he.mat'</span>,<span class="string">'barbara_he'</span>);
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% TEM HE</span>
+
+TEM_he = myHE(<span class="string">'../data/TEM.png'</span>);
+figure(24),imagesc(TEM_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'TEM HE'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/TEM_he.mat'</span>,<span class="string">'TEM_he'</span>);
+i = i + 0.05;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% Church HE</span>
+
+church_he = myHE(<span class="string">'../data/church.png'</span>);
+figure(25),imagesc(church_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'Church HE'</span>);
+colorbar;
+
+save(<span class="string">'../Report/Images/church_he.mat'</span>,<span class="string">'church_he'</span>);
+i = i + 0.02;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% retina HE done only in the mask region</span>
+retina_HE = myRetinaHE();
+figure(26),imagesc(retina_HE);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'retina HE'</span>);
+save(<span class="string">'../Report/Images/retina_he.mat'</span>,<span class="string">'retina_HE'</span>);
+
+
+<span class="comment">% retina HM</span>
+<span class="comment">% Original one followed by Reference and Histogram matched</span>
+
+I1 = <span class="string">'../data/retina.png'</span>;
+figure(27),imshow(I1);
+title(<span class="string">'retina-original'</span>);
+
+
+I1 = <span class="string">'../data/retinaRef.png'</span>;
+figure(28),imshow(I1);
+title(<span class="string">'retina-reference'</span>);
+
+
+retina_HM = myHM();
+figure(29),imagesc(retina_HM);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'retina histogram matched'</span>);
+save(<span class="string">'../Report/Images/retina_hm.mat'</span>,<span class="string">'retina_HM'</span>);
+
+i = i+0.2;
+waitbar(i);
+
+<span class="comment">%----------------------------------------------------------------------------------------------</span>
+
+<span class="comment">% Church Linear Contrast Stretching</span>
+church_lcs = myLinearContrastStretching(<span class="string">'../data/church.png'</span>);
+figure(30),imagesc(church_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis <span class="string">tight</span>;
+title(<span class="string">'Church linear-contrast-stretching'</span>);
+save(<span class="string">'../Report/Images/church_lcs.mat'</span>,<span class="string">'church_lcs'</span>);
+
+i = i+0.2;
+waitbar(i);
+
+
+close(h)
+
+toc;
+</pre><pre class="codeoutput">Warning: Image is too big to fit on screen; displaying at 67% 
+Warning: Image is too big to fit on screen; displaying at 67% 
+Elapsed time is 347.236205 seconds.
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_13.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_14.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_15.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_16.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_17.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_18.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_19.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_20.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_21.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_22.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_23.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_24.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_25.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_26.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_27.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_28.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_29.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_30.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+tic;
+
+myNumOfColors = 200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+
+
+i = 0;
+h = waitbar(0,'Assignment1-Part2');
+
+I1 = '../data/barbara.png';
+figure(1),imshow(I1);
+title('barbara-original');
+colorbar;
+
+I2 = '../data/TEM.png';
+figure(2),imshow(I2);
+title('TEM-original');
+colorbar;
+
+I3 = '../data/canyon.png';
+figure(3),imshow(I3);
+title('canyon-original');
+
+i = i + 0.02;
+waitbar(i);
+
+
+TEM_lcs = myLinearContrastStretching('../data/TEM.png');
+figure(4),imagesc(TEM_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('TEM linear-contrast-stretching');
+save('../Report/Images/TEM_lcs.mat','TEM_lcs');
+
+colorbar;
+barbara_lcs = myLinearContrastStretching('../data/barbara.png');
+figure(5),imagesc(barbara_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara linear-contrast-stretching');
+colorbar;
+
+save('../Report/Images/barbara_lcs.mat','barbara_lcs');
+canyon_lcs = myLinearContrastStretching('../data/canyon.png');
+figure(6),imagesc(canyon_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon linear-contrast-stretching');
+save('../Report/Images/canyon_lcs.mat','canyon_lcs');
+
+i = i + 0.02;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% Canyon CLAHE
+% Medium one followed by the one with alpha halved
+
+canyon_clahe = myCLAHE('../data/canyon.png',75,0.4);
+figure(7),imagesc(canyon_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon CLAHE ws=75 a=0.4');
+save('../Report/Images/canyon_clahe.mat','canyon_clahe');
+
+i = i + 0.05;
+waitbar(i);
+
+canyon_clahe_h = myCLAHE('../data/canyon.png',75,0.2);
+figure(8),imagesc(canyon_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon CLAHE ws=75 a=0.2');
+save('../Report/Images/canyon_clahe_h.mat','canyon_clahe_h');
+
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% barbara CLAHE
+% Medium one followed by the one with alpha halved
+
+barbara_clahe = myCLAHE('../data/barbara.png',75,0.2);
+figure(9),imagesc(barbara_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara CLAHE ws=75 a=0.2');
+colorbar;
+
+save('../Report/Images/barbara_clahe.mat','barbara_clahe');
+i = i + 0.05;
+waitbar(i);
+
+barbara_clahe_h = myCLAHE('../data/barbara.png',75,0.1);
+figure(10),imagesc(barbara_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara CLAHE ws=75 a=0.1');
+colorbar;
+save('../Report/Images/barbara_clahe_h.mat','barbara_clahe_h');
+
+i = i + 0.05;
+waitbar(i);
+
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% TEM CLAHE
+% Medium one followed by the one with alpha halved
+
+TEM_clahe = myCLAHE('../data/TEM.png',75,0.3);
+figure(11),imagesc(TEM_clahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('TEM CLAHE ws=75 a=0.3');
+colorbar;
+
+save('../Report/Images/TEM_clahe.mat','TEM_clahe');
+
+i = i + 0.05;
+waitbar(i);
+
+TEM_clahe_h = myCLAHE('../data/TEM.png',75,0.15);
+figure(12),imagesc(TEM_clahe_h);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('TEM CLAHE ws=75 a=0.15');
+colorbar;
+
+save('../Report/Images/TEM_clahe_h.mat','TEM_clahe_h');
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% Canyon AHE
+% Medium one followed by large and small window sizes
+
+canyon_ahe = myAHE('../data/canyon.png',75);
+figure(13),imagesc(canyon_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon AHE ws=75');
+
+save('../Report/Images/canyon_ahe.mat','canyon_ahe');
+i = i + 0.05;
+waitbar(i);
+
+canyon_ahe_large = myAHE('../data/canyon.png',200);
+figure(14),imagesc(canyon_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon AHE ws=200');
+save('../Report/Images/canyon_ahe_large.mat','canyon_ahe_large');
+
+i = i + 0.05;
+waitbar(i);
+
+canyon_ahe_small = myAHE('../data/canyon.png',30);
+figure(15),imagesc(canyon_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon AHE ws=30');
+
+save('../Report/Images/canyon_ahe_small.mat','canyon_ahe_small');
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% barbara AHE
+% Medium one followed by large and small window sizes
+
+barbara_ahe = myAHE('../data/barbara.png',75);
+figure(16),imagesc(barbara_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara AHE ws=75');
+colorbar;
+
+save('../Report/Images/barbara_ahe.mat','barbara_ahe');
+i = i + 0.05;
+waitbar(i);
+
+barbara_ahe_large = myAHE('../data/barbara.png',200);
+figure(17),imagesc(barbara_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara AHE ws=200');
+colorbar;
+
+save('../Report/Images/barbara_ahe_large.mat','barbara_ahe_large');
+i = i + 0.05;
+waitbar(i);
+
+barbara_ahe_small = myAHE('../data/barbara.png',30);
+figure(18),imagesc(barbara_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara AHE ws=30');
+colorbar;
+
+save('../Report/Images/barbara_ahe_small.mat','barbara_ahe_small');
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% TEM AHE
+% Medium one followed by large and small window sizes
+
+TEM_ahe = myAHE('../data/TEM.png',75);
+figure(19),imagesc(TEM_ahe);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('TEM AHE ws=75');
+colorbar;
+
+save('../Report/Images/TEM_ahe.mat','TEM_ahe');
+i = i + 0.05;
+waitbar(i);
+
+TEM_ahe_large = myAHE('../data/TEM.png',200);
+figure(20),imagesc(TEM_ahe_large);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon TEM ws=200');
+colorbar;
+
+save('../Report/Images/TEM_ahe_large.mat','TEM_ahe_large');
+
+i = i + 0.05;
+waitbar(i);
+
+TEM_ahe_small = myAHE('../data/TEM.png',30);
+figure(21),imagesc(TEM_ahe_small);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon TEM ws=30');
+colorbar;
+
+save('../Report/Images/TEM_ahe_small.mat','TEM_ahe_small');
+
+i = i + 0.05;
+waitbar(i);
+
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% Canyon HE
+
+canyon_he = myHE('../data/canyon.png');
+figure(22),imagesc(canyon_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('canyon HE');
+
+save('../Report/Images/canyon_he.mat','canyon_he');
+
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% barbara HE
+
+barbara_he = myHE('../data/barbara.png');
+figure(23),imagesc(barbara_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('barbara HE');
+colorbar;
+
+save('../Report/Images/barbara_he.mat','barbara_he');
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% TEM HE
+
+TEM_he = myHE('../data/TEM.png');
+figure(24),imagesc(TEM_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('TEM HE');
+colorbar;
+
+save('../Report/Images/TEM_he.mat','TEM_he');
+i = i + 0.05;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% Church HE
+
+church_he = myHE('../data/church.png');
+figure(25),imagesc(church_he);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('Church HE');
+colorbar;
+
+save('../Report/Images/church_he.mat','church_he');
+i = i + 0.02;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% retina HE done only in the mask region
+retina_HE = myRetinaHE();
+figure(26),imagesc(retina_HE);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('retina HE');
+save('../Report/Images/retina_he.mat','retina_HE');
+
+
+% retina HM
+% Original one followed by Reference and Histogram matched
+
+I1 = '../data/retina.png';
+figure(27),imshow(I1);
+title('retina-original');
+
+
+I1 = '../data/retinaRef.png';
+figure(28),imshow(I1);
+title('retina-reference');
+
+
+retina_HM = myHM();
+figure(29),imagesc(retina_HM);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('retina histogram matched');
+save('../Report/Images/retina_hm.mat','retina_HM');
+
+i = i+0.2;
+waitbar(i);
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% Church Linear Contrast Stretching
+church_lcs = myLinearContrastStretching('../data/church.png');
+figure(30),imagesc(church_lcs);
+colormap (myColorScale);
+daspect ([1 1 1]);
+axis tight;
+title('Church linear-contrast-stretching');
+save('../Report/Images/church_lcs.mat','church_lcs');
+
+i = i+0.2;
+waitbar(i);
+
+
+close(h) 
+
+toc;
+
+##### SOURCE END #####
+--></body></html>
